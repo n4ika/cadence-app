@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  client: MyString
+  type: 
+  start_date: MyString
+  estimated_end_date: MyString
+  actual_end_date: MyString
+
+two:
+  title: MyString
+  client: MyString
+  type: 
+  start_date: MyString
+  estimated_end_date: MyString
+  actual_end_date: MyString
