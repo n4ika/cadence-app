@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   before_action :authorize_project!, only: [ :edit, :update ]
 
   def new
-    @project = Project.new
+    @project = current_user.projects.build
   end
 
   def create
