@@ -1,2 +1,34 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<header>
+    <h1>Cadence</h1>
+    <h2>Hello, <%= current_user.first_name %> <%= current_user.last_name %></h2>
+    <p><%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <%= link_to "Add Project", new_project_path %>
+        </div>
+        <div class="col-9">
+            <% @projects.each do |project| %>
+                <div class="project">
+                <h3><%= project.title %></h3>
+                <p>Client: <%= project.client %></p>
+                <p>Type: <%= project.project_type %></p>
+                <p>Start Date: <%= project.start_date %></p>
+                <p>Estimated End: <%= project.estimated_end_date %></p>
+    
+                <%= link_to "Edit Project", edit_project_path(project) %>
+                 <%= link_to "Add Task", new_project_task_path(project) %>
+    
+                <% project.tasks.each do |task| %>
+                    <div class="task">
+                        <p><%= task.title %></p>
+                        <%= link_to "Edit Task", edit_project_task_path(project, task) %>
+                        <%= button_to "Delete Task", project_task_path(project, task), method: :delete %>
+                    </div>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
