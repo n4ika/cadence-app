@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [ :edit, :update, :destroy ]
 
   def new
-    @task = Task.new
+    @task = @project.tasks.build
   end
 
   def create
