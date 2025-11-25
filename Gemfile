@@ -72,5 +72,9 @@ group :test do
   gem "selenium-webdriver"
 end
 
-# Devise authenticatoin gem
-gem 'devise'
+# Devise authentication gem
+gem "devise"
+
+# Background job processing with Sidekiq
+gem 'sidekiq', '~> 8.0', '>= 8.0.9'
+gem 'whenever', require: false
