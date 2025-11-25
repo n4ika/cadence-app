@@ -4,7 +4,7 @@ user = User.create(
   email: "test@testemail.com",
   password: "password123",
   password_confirmation: "password123",
-  email_notifications_enabled: false,
+  email_notifications_enabled: true,
   in_app_notifications_enabled: true,
   high_priority_notifications_only: false
 )
@@ -46,3 +46,21 @@ task5 = project2.tasks.create(
   due_date: "2025-11-30"
 )
 
+
+task_24hr = project1.tasks.create(
+  title: "Urgent Task - Due Tomorrow",
+  due_date: Date.today + 1.day,
+  status: "pending"
+)
+
+task_48hr = project1.tasks.create(
+  title: "Task Due in 2 Days",
+  due_date: Date.today + 2.days,
+  status: "pending"
+)
+
+task_overdue = project1.tasks.create(
+  title: "Overdue Task",
+  due_date: Date.today - 1.day,
+  status: "pending"
+)
