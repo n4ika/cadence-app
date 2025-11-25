@@ -4,6 +4,10 @@
 >
 > A Ruby on Rails task management application for freelancers to organize projects, track deadlines, and receive intelligent notifications. Built as a portfolio project to demonstrate full-stack Rails development, background job processing, and real-time web features.
 
+>## 🚀 [Try the Live Demo](https://cadence-app-pnwv.onrender.com)
+
+> **Note:** Render's free tier may take 30-60 seconds to wake up on first visit.
+
 ## Current Features
 
 - **User Authentication** - Secure sign up and login via Devise
@@ -12,7 +16,7 @@
 - **Dashboard** - Centralized view of all projects and tasks at a glance
 - **Authorization** - Role-based access control ensuring users only see/modify their own projects and tasks
 - **Notification Preferences** - Users can customize notification settings (email alerts, in-app alerts, priority filtering)
-- **Background Job Processing** - Sidekiq checks approaching/overdue deadlines every 15 minutes
+- **Background Job Processing** - Sidekiq worker runs every 15 minutes to check deadlines and queue notifications asynchronously
 - **Deadline Notifications** - Automatic email and in-app notifications for tasks due within 24-48 hours or overdue
 - **Responsive UI** - Clean, minimal design with card-based layouts and mobile responsiveness
 
@@ -69,7 +73,7 @@ Quick, consistent UI for the POC. Focus is on functionality and architecture, no
 
 ## Known Limitations
 
-- Email delivery requires proper SMTP configuration in production (tested with Gmail)
+- Email delivery requires SMTP configuration (currently using Gmail for demo environment)
 - In-app notifications appear on page refresh (real-time updates coming with ActionCable)
 - No priority levels yet (planned for next iteration)
 
@@ -110,6 +114,13 @@ rails server
 
 Visit `http://localhost:3000` and create an account or use seeded test data.
 
+**Seeded Test Account:**
+- Email: demo@example.com
+- Password: password
+
+Or create your own account.
+
+
 ## Technical Highlights
 
 This project demonstrates:
@@ -122,6 +133,14 @@ This project demonstrates:
 - Database modeling for relational data
 - Database schema design and migrations
 - Testing practices (planned)
+
+## Development Insights
+
+**Challenge:** Ensuring Sidekiq jobs run reliably on Render's free tier with limited memory
+**Solution:** Optimized job queries to batch-process notifications and reduced Redis memory footprint
+
+**Challenge:** Handling timezone-aware deadline checks across different user locations
+**Solution:** Stored all timestamps in UTC and converted to user's local timezone in views
 
 ## Next Steps
 
