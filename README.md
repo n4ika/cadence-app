@@ -12,6 +12,9 @@
 - **Dashboard** - Centralized view of all projects and tasks at a glance
 - **Authorization** - Role-based access control ensuring users only see/modify their own projects and tasks
 - **Notification Preferences** - Users can customize notification settings (email alerts, in-app alerts, priority filtering)
+- **Background Job Processing** - Sidekiq checks approaching/overdue deadlines every 15 minutes
+- **Deadline Notifications** - Automatic email and in-app notifications for tasks due within 24-48 hours or overdue
+- **Responsive UI** - Clean, minimal design with card-based layouts and mobile responsiveness
 
 ## Technical Architecture
 
@@ -39,22 +42,36 @@ Quick, consistent UI for the POC. Focus is on functionality and architecture, no
 - **Frontend:** HTML/ERB, Vanilla JavaScript, Bootstrap
 - **Testing:** RSpec (planned)
 
-## Planned Features
+## Planned Features (Implementation Queue)
 
 - [ ] **Real-Time Dashboard Updates** - WebSocket integration to push task/project changes to all connected users instantly
-- [ ] **Intelligent Deadline Notifications** - Background job that checks task deadlines and sends email + in-app notifications based on priority and user preferences
-- [ ] **Task Archiving** - Soft delete for completed/abandoned tasks with reasoning (completed, deprioritized, abandoned)
+- [ ] **Task Archiving** - Soft delete for completed/abandoned tasks with reasoning
 - [ ] **Recurring Tasks** - Support for repeating tasks with customizable intervals
+- [ ] **Priority Levels** - Add task priority system (high, medium, low) for smarter notifications
 - [ ] **Analytics Dashboard** - Visualize project timelines, task completion rates, and deadline patterns
-- [ ] **Email Notifications** - Transactional emails for deadline alerts and task assignments
-- [ ] **Mobile Responsiveness** - Optimize UI for mobile and tablet devices
 - [ ] **Test Suite** - Comprehensive RSpec tests for models, controllers, and background jobs
 - [ ] **Modal Forms** - Refactor inline forms into polished modal dialogs with smooth transitions
 - [ ] **API Endpoints** - RESTful API for programmatic access
 
 ## Screenshots
 
-Screenshots coming soon
+### Dashboard
+
+![Dashboard with projects and tasks](docs/screenshots/dashboard.png)
+
+### New Project Form
+
+![New project form](docs/screenshots/new-project-form.png)
+
+### Edit Task Form
+
+![Edit task form](docs/screenshots/edit-task-form.png)
+
+## Known Limitations
+
+- Email delivery requires proper SMTP configuration in production (tested with Gmail)
+- In-app notifications appear on page refresh (real-time updates coming with ActionCable)
+- No priority levels yet (planned for next iteration)
 
 ## How to Run Locally
 
@@ -69,7 +86,7 @@ Screenshots coming soon
 
 ```bash
 # Clone the repo
-git clone <repo-url>
+git clone https://github.com/n4ika/cadence-app
 cd cadence-app
 
 # Install dependencies
@@ -108,10 +125,10 @@ This project demonstrates:
 
 ## Next Steps
 
-1. Implement Sidekiq background job for deadline notifications
+1. ✅ Implement Sidekiq background jobs for deadline notifications
 2. Integrate ActionCable for real-time dashboard updates
 3. Build comprehensive test suite with RSpec
-4. Refactor UI with modal forms and improved styling
+4. Add task priority levels and smarter notification logic
 5. Deploy to production environment
 
 ---

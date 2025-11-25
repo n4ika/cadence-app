@@ -1,34 +1,61 @@
 <header>
-    <h1>Cadence</h1>
-    <h2>Hello, <%= current_user.first_name %> <%= current_user.last_name %></h2>
-    <p><%= link_to "Logout", destroy_user_session_path, method: :delete %></p>
-</header>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-3">
-            <%= link_to "Add Project", new_project_path %>
-        </div>
-        <div class="col-9">
-            <% @projects.each do |project| %>
-                <div class="project">
-                <h3><%= project.title %></h3>
-                <p>Client: <%= project.client %></p>
-                <p>Type: <%= project.project_type %></p>
-                <p>Start Date: <%= project.start_date %></p>
-                <p>Estimated End: <%= project.estimated_end_date %></p>
-    
-                <%= link_to "Edit Project", edit_project_path(project) %>
-                 <%= link_to "Add Task", new_project_task_path(project) %>
-    
-                <% project.tasks.each do |task| %>
-                    <div class="task">
-                        <p><%= task.title %></p>
-                        <%= link_to "Edit Task", edit_project_task_path(project, task) %>
-                        <%= button_to "Delete Task", project_task_path(project, task), method: :delete %>
-                    </div>
-                <% end %>
-                </div>
-            <% end %>
-        </div>
+  <div class="header-right">
+    <div class="header-welcome">
+      <h1>Cadence</h1>
+      <h2>|</h2>
+      <h2>Hello, <%= current_user.first_name %> <%= current_user.last_name %></h2>
     </div>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-outline-secondary" %>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-lg-3">
+      <div class="form-container">
+        <h4>New Project</h4>
+        <%= render 'projects/form', project: @project || Project.new %>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-9">
+      <div class="row">
+        <% @projects.each do |project| %>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="project">
+              <h3><%= project.title %></h3>
+              <p><strong>Client:</strong> <%= project.client %></p>
+              <p><strong>Type:</strong> <%= project.project_type %></p>
+              <p><strong>Start:</strong> <%= project.start_date %></p>
+              <p><strong>Est. End:</strong> <%= project.estimated_end_date %></p>
+              
+              <div class="project-actions">
+                <%= link_to "Edit", edit_project_path(project) %>
+                <%= link_to "Add Task", new_project_task_path(project) %>
+              </div>
+
+              <div class="tasks-container">
+                <% if project.tasks.any? %>
+                  <% project.tasks.each do |task| %>
+                    <div class="task">
+                      <strong><%= task.title %></strong>
+                      <p><%= task.description %></p>
+                      <p><strong>Due:</strong> <%= task.due_date %> | <strong>Status:</strong> <%= task.status %></p>
+                      
+                      <div class="task-actions">
+                        <%= link_to "Edit", edit_project_task_path(project, task) %>
+                        <%= link_to "Delete", project_task_path(project, task), method: :delete, data: { confirm: "Are you sure?" } %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <p style="color: #999; font-size: 0.9rem;">No tasks yet</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
