@@ -45,7 +45,7 @@ Rails has several scheduling options (`whenever`, Solid Queue, `sidekiq-schedule
 **Why PostgreSQL?**
 The data model (Users → Projects → Tasks → Notifications) is inherently relational. Foreign keys enforce referential integrity, and cascade deletes (`dependent: :destroy`) keep the database clean when tasks are deleted.
 
-## Screenshots
+## Screenshots 
 
 ### Dashboard
 ![Dashboard with projects and tasks](docs/screenshots/dashboard.png)
