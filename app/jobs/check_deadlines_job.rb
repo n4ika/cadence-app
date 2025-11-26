@@ -3,10 +3,12 @@ class CheckDeadlinesJob < ApplicationJob
 
   def perform
     today = Date.today
+    tomorrow = today + 1.day
+    day_after_tomorrow = today + 2.days
 
     # Find tasks by deadline urgency
-    due_in_48_hours = Task.where(due_date: today...(today + 2.days))
-    due_in_24_hours = Task.where(due_date: today...(today + 1.day))
+    due_in_48_hours = Task.where(due_date: day_after_tomorrow)
+    due_in_24_hours = Task.where(due_date: tomorrow)
     overdue = Task.where("due_date < ?", today)
 
     # Process each group
