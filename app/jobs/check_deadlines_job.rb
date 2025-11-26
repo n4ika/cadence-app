@@ -38,11 +38,11 @@ class CheckDeadlinesJob < ApplicationJob
         )
 
         if user.email_notifications_enabled
-          SendNotificationEmailJob.perform_later(notification.id)
+          UserMailer.deadline_notification(notification).deliver_now
         end
 
         if user.in_app_notifications_enabled
-          SendInAppNotificationJob.perform_later(notification.id)
+          notification.update(in_app_notification_successfully_sent: true)
         end
       end
     end

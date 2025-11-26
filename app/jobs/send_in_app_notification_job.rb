@@ -1,8 +1,10 @@
-class SendInAppNotificationJob < ApplicationJob
-  queue_as :default
+# Deprecated for POC - emails now sent synchronously in CheckDeadlinesJob
+# Uncomment if switching to async background processing
+# class SendInAppNotificationJob < ApplicationJob
+#   queue_as :default
 
-  def perform(notification_id)
-    notification = Notification.find(notification_id)
-    notification.update(in_app_notification_successfully_sent: true)
-  end
-end
+#   def perform(notification_id)
+#     notification = Notification.find(notification_id)
+#     notification.update(in_app_notification_successfully_sent: true)
+#   end
+# end
