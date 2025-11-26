@@ -20,7 +20,7 @@ class CheckDeadlinesJob < ApplicationJob
   private
 
   def process_tasks(tasks, urgency_level)
-    tasks.each do |task|
+    tasks.each_with_index do |task, index|
 
       if Notification.exists?(task_id: task.id)
         next
@@ -39,6 +39,8 @@ class CheckDeadlinesJob < ApplicationJob
 
         if user.email_notifications_enabled
           UserMailer.deadline_notification(notification).deliver_now
+
+          sleep 2 unless index == tasks.size - 1
         end
 
         if user.in_app_notifications_enabled
