@@ -44,7 +44,7 @@
                       
                       <div class="task-actions">
                         <%= link_to "Edit", edit_project_task_path(project, task) %>
-                        <%= link_to "Delete", project_task_path(project, task), method: :delete, data: { confirm: "Are you sure?" } %>
+                        <%= link_to "Delete", project_task_path(project, task), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
                       </div>
                     </div>
                   <% end %>

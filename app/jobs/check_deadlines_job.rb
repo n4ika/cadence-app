@@ -7,9 +7,9 @@ class CheckDeadlinesJob < ApplicationJob
     day_after_tomorrow = today + 2.days
 
     # Find tasks by deadline urgency
-    due_in_48_hours = Task.where(due_date: day_after_tomorrow)
-    due_in_24_hours = Task.where(due_date: tomorrow)
-    overdue = Task.where("due_date < ?", today)
+    due_in_48_hours = Task.where(due_date: day_after_tomorrow, status: ['pending', 'in_progress'])
+    due_in_24_hours = Task.where(due_date: tomorrow, status: ['pending', 'in_progress'])
+    overdue = Task.where("due_date < ? AND status IN (?)", today, ['pending', 'in_progress'])
 
     # Process each group
     process_tasks(due_in_48_hours, "48_hour")
