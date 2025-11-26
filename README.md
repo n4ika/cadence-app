@@ -19,7 +19,7 @@
 - **Status Tracking** - Tasks support pending, in_progress, and completed states
 - **Responsive Dashboard** - Card-based layout showing all projects and their tasks at a glance
 - **Automated Deadline Notifications** - Email alerts for tasks due tomorrow or in two days
-- **Background Job Processing** - Sidekiq handles email delivery asynchronously
+- **Background Job Processing** - Synchrononous email delivery
 - **Scheduled Jobs** - Render Cron Job checks deadlines every hour
 - **Notification Preferences** - Users can enable/disable email and in-app notifications (UI for in-app display coming next)
 
@@ -28,16 +28,16 @@
 - **Framework:** Ruby on Rails 8.1.1
 - **Database:** PostgreSQL (production), SQLite (development)
 - **Authentication:** Devise
-- **Background Jobs:** Sidekiq with Redis
+- **Background Jobs:** Sidekiq with Redis (local dev only)
 - **Email:** Mailtrap SMTP (for testing notifications without spamming real inboxes)
 - **Deployment:** Render (web service + cron job + PostgreSQL)
 - **Frontend:** ERB templates, Turbo, Bootstrap 5
-- **Job Scheduling:** Render Cron Jobs (runs `CheckDeadlinesJob` hourly at minute 12)
+- **Job Scheduling:** Render Cron Jobs (runs `CheckDeadlinesJob` every 2 hours at minute 12)
 
 ## Architecture Decisions
 
-**Why Sidekiq?**
-Email delivery can be slow and unreliable. Sidekiq processes emails asynchronously so users don't wait for SMTP responses during page loads. If an email fails, Sidekiq automatically retries with exponential backoff.
+**Why Synchronous Email Delivery for POC?**
+For this proof-of-concept, emails are sent synchronously (using `deliver_now`) directly from the scheduled cron job. With low volume (typically 0-5 notifications per hour), sending emails takes only 2-3 seconds total per job run. This eliminates the need for Redis ($10/month) and a persistent background worker ($7/month), keeping infrastructure costs minimal for demonstration purposes. For production scale with hundreds of users, I would implement Sidekiq with Redis to handle email delivery asynchronously, preventing SMTP latency from blocking the application and providing automatic retry logic for failed deliveries.
 
 **Why Render Cron Jobs?**
 Rails has several scheduling options (`whenever`, Solid Queue, `sidekiq-scheduler`), but they all require a persistent process running 24/7. Render's free tier spins down after inactivity, so a separate cron job service ($7/month) reliably triggers deadline checks every hour without keeping the main app awake.
@@ -121,6 +121,10 @@ Visit `http://localhost:3000` and use the test account credentials above.
 **Root Cause:** Missing SMTP environment variables (`SMTP_USERNAME`, `SMTP_PASSWORD`, etc.) in Render production environment.  
 **Solution:** Configured Mailtrap credentials as environment variables and updated `production.rb` to use `ENV[]` lookups instead of hardcoded values.
 
+**Challenge:** Production deployment requiring $17/month for background job infrastructure  
+**Root Cause:** Sidekiq requires Redis and a persistent worker process, adding significant cost to free-tier POC deployment.  
+**Solution:** Switched to synchronous email delivery via `deliver_now` for POC scale. Evaluated trade-offs: acceptable 2-3 second delay during low-volume cron runs vs. $17/month infrastructure cost. Documented scalability path to Sidekiq for production deployment.
+
 ## What This Project Demonstrates
 
 - Full-stack Rails MVC architecture with proper separation of concerns
@@ -137,6 +141,7 @@ Visit `http://localhost:3000` and use the test account credentials above.
 - In-app notifications are created in the database but not yet displayed to users (UI coming next)
 - Notification timing is date-based only (no time-of-day support yet)
 - Cron job cost: ~$7/month on Render (free tier doesn't support persistent background workers)
+- Mailtrap's free sandbox limits email sending speed. Tested successfully - emails deliver correctly when within rate limits. Production deployment would use SendGrid, Postmark, or similar service with appropriate rate limits for scale.
 
 ---
 
