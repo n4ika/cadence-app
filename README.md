@@ -7,6 +7,7 @@
 ## 🚀 [Try the Live Demo](https://cadence-app-pnwv.onrender.com)
 
 **Test Credentials:**
+
 - Email: `test@testemail.com`
 - Password: `password123`
 
@@ -21,7 +22,8 @@
 - **Automated Deadline Notifications** - Email alerts for tasks due tomorrow or in two days
 - **Background Job Processing** - Synchrononous email delivery
 - **Scheduled Jobs** - Render Cron Job checks deadlines every hour
-- **Notification Preferences** - Users can enable/disable email and in-app notifications (UI for in-app display coming next)
+- **Notification Preferences** - Users can enable/disable email and in-app notifications
+- **In-App Notification UI** - Bell icon dropdown showing recent notifications with read/unread tracking
 
 ## Technical Stack
 
@@ -45,25 +47,29 @@ Rails has several scheduling options (`whenever`, Solid Queue, `sidekiq-schedule
 **Why PostgreSQL?**
 The data model (Users → Projects → Tasks → Notifications) is inherently relational. Foreign keys enforce referential integrity, and cascade deletes (`dependent: :destroy`) keep the database clean when tasks are deleted.
 
-## Screenshots 
+## Screenshots
 
 ### Dashboard
+
 ![Dashboard with projects and tasks](docs/screenshots/dashboard.png)
 
 ### New Project Form
+
 ![New project form](docs/screenshots/new-project-form.png)
 
 ### Edit Task Form
+
 ![Edit task form](docs/screenshots/edit-task-form.png)
 
 ## Roadmap (Planned Features)
 
 **Next Up:**
-- **In-App Notification UI** - Bell icon dropdown showing recent notifications with read/unread status
+
 - **ActionCable Integration** - Real-time dashboard updates via WebSockets (notifications appear without refresh)
 - **RSpec Test Suite** - Comprehensive tests for models, jobs, and controllers
 
 **Future Iterations:**
+
 - **Priority Levels** - High/medium/low priority tasks with adjusted notification timing
 - **Task Archiving** - Soft delete with archive/restore functionality
 - **Modal Forms** - Replace separate form pages with inline modals
@@ -73,12 +79,14 @@ The data model (Users → Projects → Tasks → Notifications) is inherently re
 ## Local Development Setup
 
 ### Prerequisites
+
 - Ruby 3.4.7
 - Rails 8.1.1
 - PostgreSQL
 - Redis (for Sidekiq)
 
 ### Installation
+
 ```bash
 # Clone repository
 git clone https://github.com/n4ika/cadence-app
@@ -135,10 +143,11 @@ Visit `http://localhost:3000` and use the test account credentials above.
 - User authentication and authorization patterns
 - Debugging complex issues in production environments
 - Modern Rails 8 conventions (Turbo, Solid Queue, Propshaft)
+- Stimulus controllers for interactive JavaScript features
+- Read/unread state management
 
 ## Known Limitations
 
-- In-app notifications are created in the database but not yet displayed to users (UI coming next)
 - Notification timing is date-based only (no time-of-day support yet)
 - Cron job cost: ~$7/month on Render (free tier doesn't support persistent background workers)
 - Mailtrap's free sandbox limits email sending speed. Tested successfully - emails deliver correctly when within rate limits. Production deployment would use SendGrid, Postmark, or similar service with appropriate rate limits for scale.
