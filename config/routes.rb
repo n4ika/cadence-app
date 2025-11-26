@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :projects, only: [ :new, :create, :edit, :update ] do
     resources :tasks, only: [ :new, :create, :edit, :update, :destroy ]
   end
-
+  get 'notifications/recent', to: 'notifications#recent', as: 'recent_notifications'
+  
   get "up" => "rails/health#show", as: :rails_health_check
 end

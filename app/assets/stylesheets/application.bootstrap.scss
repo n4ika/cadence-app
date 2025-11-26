@@ -18,6 +18,9 @@ header {
   border-bottom: 1px solid $border-color;
   padding: $spacing-unit * 1.5;
   margin-bottom: $spacing-unit * 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
@@ -31,17 +34,15 @@ header h2 {
   font-size: 1.5rem;
 }
 
-.header-welcome {
+.header-left {
   display: flex;
-  gap: $spacing-unit;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .header-right {
   display: flex;
-  justify-content: space-between;
+  gap: $spacing-unit;
   align-items: center;
-  margin-bottom: $spacing-unit;
 }
 
 .projects-container {
@@ -109,6 +110,30 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.notifications-list {
+  max-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: $spacing-unit;
+  
+  &.border-bottom {
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.notification-text {
+  margin-bottom: $spacing-unit * 0.25;
+  font-size: 0.9rem;
+  
+  strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
 }
 
 .form-container {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_24_214928) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_26_203750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_214928) do
     t.boolean "in_app_notification_successfully_sent"
     t.text "message"
     t.datetime "notification_sent_timestamp"
+    t.datetime "read_at"
     t.bigint "task_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"

@@ -1,0 +1,16 @@
+<div class="notifications-list">
+  <% if @notifications.any? %>
+    <% @notifications.each_with_index do |notification, index| %>
+      <div class="notification-item <%= 'border-bottom' if index < @notifications.size - 1 %>">
+        <div class="notification-text">
+          <%= notification.task.title %> is due on <%= notification.task.due_date.strftime("%b %d") %>
+        </div>
+        <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="notification-item text-muted">
+      No recent notifications
+    </div>
+  <% end %>
+</div>
