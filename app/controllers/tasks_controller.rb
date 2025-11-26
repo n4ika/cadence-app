@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project
-  before_action :authorize_project!
+  before_action :set_task_project, only: [ :new, :create, :edit, :update, :destroy ]
+  before_action :authorize_task_project!, only: [ :new, :create, :edit, :update, :destroy ]
   before_action :set_task, only: [ :edit, :update, :destroy ]
 
   def new
@@ -40,7 +40,7 @@ def task_params
   params.require(:task).permit(:title, :description, :due_date, :status)
 end
 
-def set_project
+def set_task_project
   @project = Project.find(params[:project_id])
 end
 
@@ -48,6 +48,6 @@ def set_task
   @task = Task.find(params[:id])
 end
 
-def authorize_project!
+def authorize_task_project!
   redirect_to root_path unless @project.user == current_user
 end

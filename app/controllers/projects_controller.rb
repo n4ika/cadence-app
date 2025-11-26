@@ -17,7 +17,11 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-  end
+    puts "========= IN PROJECTS CONTROLLER EDIT ========="
+    puts "params[:id] = #{params[:id]}"
+    puts "params[:project_id] = #{params[:project_id]}"
+    puts "@project = #{@project.inspect}"
+  end 
 
   def update
     if @project.update(project_params)
