@@ -51,13 +51,8 @@ export default class extends Controller {
   }
 
   updateBadge(count) {
-    console.log("updateBadge called with count:", count);
-    console.log("this.element:", this.element);
-    console.log("Searching for 'i' tag...");
-
-    // Find the bell icon - use a more general selector
-    const bellIcon = this.element.querySelector("i");
-    console.log("Found icon:", bellIcon);
+    // Find the bell - works for both <i> and <svg> after FA transformation
+    const bellIcon = this.element.querySelector(".fa-bell");
 
     if (!bellIcon) {
       console.error("Bell icon not found!");
@@ -65,11 +60,9 @@ export default class extends Controller {
     }
 
     if (count > 0) {
-      // Show filled bell
       bellIcon.classList.remove("fa-regular");
       bellIcon.classList.add("fa-solid");
     } else {
-      // Show outlined bell
       bellIcon.classList.remove("fa-solid");
       bellIcon.classList.add("fa-regular");
     }

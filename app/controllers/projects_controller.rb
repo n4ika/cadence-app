@@ -17,11 +17,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    puts "========= IN PROJECTS CONTROLLER EDIT ========="
-    puts "params[:id] = #{params[:id]}"
-    puts "params[:project_id] = #{params[:project_id]}"
-    puts "@project = #{@project.inspect}"
-  end 
+  end
 
   def update
     if @project.update(project_params)
@@ -39,7 +35,7 @@ def project_params
 end
 
 def set_project
-  @project = Project.find(params[:id])
+  @project = current_user.projects.find(params[:id])
 end
 
 def authorize_project!

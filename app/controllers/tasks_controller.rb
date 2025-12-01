@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task_project, only: [ :new, :create, :edit, :update, :destroy ]
-  before_action :authorize_task_project!, only: [ :new, :create, :edit, :update, :destroy ]
   before_action :set_task, only: [ :edit, :update, :destroy ]
 
   def new
@@ -41,13 +40,9 @@ def task_params
 end
 
 def set_task_project
-  @project = Project.find(params[:project_id])
+  @project = current_user.projects.find(params[:project_id])
 end
 
 def set_task
-  @task = Task.find(params[:id])
-end
-
-def authorize_task_project!
-  redirect_to root_path unless @project.user == current_user
+  @task = current_user.tasks.find(params[:id])
 end
