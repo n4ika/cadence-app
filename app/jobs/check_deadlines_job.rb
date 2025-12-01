@@ -2,7 +2,7 @@ class CheckDeadlinesJob < ApplicationJob
   queue_as :default
 
   def perform
-    today = Date.today
+    today = Date.current
     tomorrow = today + 1.day
     day_after_tomorrow = today + 2.days
 
